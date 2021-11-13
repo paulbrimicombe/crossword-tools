@@ -4,13 +4,18 @@
   "license": "MIT",
   "author": "crossword-tools",
   "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulbrimicombe/crossword-tools.git"
+  },
   "scripts": {
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "build": "rimraf dist && tsc && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
-    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "deploy": "npm run export && gh-pages -d dist/ -t"
   },
   "dependencies": {
     "lit": "^2.0.2"
@@ -28,10 +33,11 @@
     "@web/rollup-plugin-html": "^1.10.1",
     "@web/rollup-plugin-import-meta-assets": "^1.0.7",
     "babel-plugin-template-html-minifier": "^4.1.0",
-    "concurrently": "^5.3.0",
+    "concurrently": "^6.4.0",
     "deepmerge": "^4.2.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
+    "gh-pages": "^3.2.3",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "prettier": "^2.4.1",
