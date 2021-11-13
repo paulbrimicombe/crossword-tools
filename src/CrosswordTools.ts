@@ -149,7 +149,14 @@ export class CrosswordTools extends LitElement {
         </div>
       </main>
       <div class="footer">
-        Definitions from the
+        List of English words from
+        <a
+          href="https://github.com/dwyl/english-words"
+          target="_blank"
+          rel="noopener noreferrer"
+          >here</a
+        >
+        / Definitions from the
         <a
           href="https://dictionaryapi.dev/"
           target="_blank"
