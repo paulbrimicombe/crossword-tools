@@ -55,14 +55,21 @@ export class MissingLetters extends LitElement {
           required
           @input=${this.changeInput}
         />
-        <ul class="definitions">
-          ${this.results.map(
-            (word) =>
-              html`<li key="{word}">
-                <crossword-tools-word value="${word}"></crossword-tools-word>
-              </li>`
-          )}
-        </ul>
+        ${this.results.length > 200
+          ? html`<crossword-tools-paper
+              >More than 200 results — please narrow down your
+              query!</crossword-tools-paper
+            >`
+          : html`<ul class="definitions">
+              ${this.results.map(
+                (word) =>
+                  html`<li key="{word}">
+                    <crossword-tools-word
+                      value="${word}"
+                    ></crossword-tools-word>
+                  </li>`
+              )}
+            </ul>`}
       </main>
     `;
   }
