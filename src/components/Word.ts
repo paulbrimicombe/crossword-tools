@@ -1,18 +1,32 @@
 import { LitElement, html, css } from 'lit';
 import { property, customElement, state } from 'lit/decorators.js';
 import { lookup } from '../lib/dictionary.js';
-import type { DictionaryEntry } from '../lib/dictionary';
+import type { DictionaryEntry, NotFoundError } from '../lib/dictionary';
 import './Paper.js';
 
 @customElement('crossword-tools-word')
 export class Word extends LitElement {
   private _value: string = '';
 
+  private _readonly = false;
+
   @state()
   private lookupError: string | null = null;
 
-  @state()
-  private dictionaryEntries: DictionaryEntry[] = [];
+  @property({ type: Array })
+  dictionaryEntries: DictionaryEntry[] = [];
+
+  set readonly(value: boolean) {
+    this._readonly = value;
+    if (value) {
+      this.fetchData();
+    }
+  }
+
+  @property({ type: Boolean })
+  get readonly() {
+    return this._readonly;
+  }
 
   @property({ type: String })
   get value() {
@@ -25,13 +39,22 @@ export class Word extends LitElement {
     this._value = value;
   }
 
+  private fetchData = async () => {
+    try {
+      this.dictionaryEntries = await lookup(this.value);
+    } catch (error) {
+      if ((error as NotFoundError).code === 'NOT_FOUND') {
+        this.lookupError = 'No definition found';
+      } else {
+        this.lookupError =
+          "I'm sorry, but there was an error fetching the definition";
+      }
+    }
+  };
+
   private toggleDefinition = async () => {
     if (this.dictionaryEntries.length === 0 && this.lookupError === null) {
-      try {
-        this.dictionaryEntries = await lookup(this.value);
-      } catch {
-        this.lookupError = 'No definitions found';
-      }
+      await this.fetchData();
     } else {
       this.dictionaryEntries = [];
       this.lookupError = null;
@@ -59,7 +82,8 @@ export class Word extends LitElement {
 
     ul {
       margin: 0;
-      padding: 1em 2em;
+      padding: 0.5em 2em;
+      font-size: 0.9em;
     }
 
     ol {
@@ -116,25 +140,34 @@ export class Word extends LitElement {
       border: 1px solid goldenrod;
       margin: 1em;
     }
+
+    .part-of-speech {
+      padding-left: 1em;
+    }
   `;
 
   render() {
+    if (this._readonly) {
+      this.fetchData();
+    }
     return html`
       <div class="word">
         <div class="summary">
-          <b>${this.value}</b>
-          <sup
-            ><button
-              class="toggle-definition"
-              @click=${this.toggleDefinition}
-              title="Show/hide definition"
-            >
-              ${this.dictionaryEntries.length > 0 || this.lookupError
-                ? 'hide'
-                : 'show'}
-              definition
-            </button></sup
-          >
+          ${this._readonly
+            ? ''
+            : html`<b>${this.value}</b>
+                <sup>
+                  <button
+                    class="toggle-definition"
+                    @click=${this.toggleDefinition}
+                    title="Show/hide definition"
+                  >
+                    ${this.dictionaryEntries.length > 0 || this.lookupError
+                      ? 'hide'
+                      : 'show'}
+                    definition
+                  </button>
+                </sup>`}
         </div>
         ${this.lookupError
           ? html`<crossword-tools-paper
@@ -155,10 +188,12 @@ export class Word extends LitElement {
                   (entry) =>
                     html`<li>
                       <div class="dictionary-entry">
-                        <b>${entry.word}</b>
+                        <div><b>${entry.word}</b></div>
                         ${entry.meanings.map(
                           ({ partOfSpeech, definitions }) =>
-                            html`<i>(${partOfSpeech})</i>
+                            html`<span class="part-of-speech"
+                                ><i>(${partOfSpeech})</i></span
+                              >
                               <ol>
                                 ${definitions.map(
                                   ({ definition }) =>

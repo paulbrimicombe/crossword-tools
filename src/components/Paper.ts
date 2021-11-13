@@ -10,6 +10,7 @@ export class Paper extends LitElement {
       padding: 0.5em;
       border-radius: 2px;
       margin: 1em;
+      position: relative;
     }
   `;
 

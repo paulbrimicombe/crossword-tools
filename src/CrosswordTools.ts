@@ -5,6 +5,9 @@ import './components/Anagram.js';
 import './components/MissingLetters.js';
 import './components/Synonyms.js';
 
+const logo = new URL('../../assets/crossword-tools-logo.svg', import.meta.url)
+  .href;
+
 type Mode = 'MissingLetters' | 'Anagrams' | 'Synonyms';
 
 export class CrosswordTools extends LitElement {
@@ -36,23 +39,18 @@ export class CrosswordTools extends LitElement {
       margin: 1em 0 1em 0;
     }
 
+    .title {
+      display: flex;
+      align-items: center;
+    }
+
+    .title img {
+      margin-right: 0.5em;
+    }
+
     main {
       flex-grow: 1;
       width: 90%;
-    }
-
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
     }
 
     button {
@@ -100,12 +98,23 @@ export class CrosswordTools extends LitElement {
     .content {
       margin: 0.3em 0.3em;
     }
+
+    .footer {
+      flex-shrink: 0;
+      font-size: 0.8em;
+      text-align: left;
+      width: 90%;
+      padding: 1em;
+    }
   `;
 
   render() {
     return html`
       <main>
-        <h1>${this.title}</h1>
+        <div class="title">
+          <img height="40" width="40" alt="Crossword tools logo" src=${logo} />
+          <h1>${this.title}</h1>
+        </div>
         <div class="nav" role="navigation">
           <button
             @click=${() => this.switchMode('MissingLetters')}
@@ -138,6 +147,15 @@ export class CrosswordTools extends LitElement {
             : ''}
         </div>
       </main>
+      <div class="footer">
+        Definitions from the
+        <a
+          href="https://dictionaryapi.dev/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Free Dictionary API</a
+        >.
+      </div>
     `;
   }
 }
