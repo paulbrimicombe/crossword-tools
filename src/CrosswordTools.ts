@@ -46,6 +46,7 @@ export class CrosswordTools extends LitElement {
 
     .title img {
       margin-right: 0.5em;
+      box-shadow: rgb(0 0 0 / 34%) 0px 2px 5px;
     }
 
     main {
