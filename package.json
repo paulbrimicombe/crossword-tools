@@ -15,7 +15,7 @@
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "deploy": "npm run export && gh-pages -d dist/ -t"
+    "deploy": "npm run build && gh-pages -d dist/ -t"
   },
   "dependencies": {
     "lit": "^2.0.2"
