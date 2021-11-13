@@ -59,6 +59,7 @@ export class CrosswordTools extends LitElement {
       cursor: pointer;
       flex: 1;
       border: 1px solid transparent;
+      border-bottom: 1px solid grey;
       background-color: lightgrey;
       height: 2em;
       max-width: 10em;
@@ -76,24 +77,21 @@ export class CrosswordTools extends LitElement {
         aliceblue 80%,
         #ededed
       );
-      border: 1px solid transparent;
-      border-image: linear-gradient(to bottom, darkgrey, rgba(0, 0, 0, 0)) 1
-        100%;
-      border-bottom: transparent;
-      border-image-slice: 1;
     }
 
     .active {
       background-color: inherit;
+      border: 1px solid grey;
       border-bottom: transparent;
-      border: 1px solid transparent;
-      border-image: linear-gradient(to bottom, darkslategrey, rgba(0, 0, 0, 0))
-        1 100%;
-      border-image-slice: 1;
     }
 
     .nav {
       display: flex;
+    }
+
+    .filler {
+      border-bottom: 1px solid grey;
+      flex: 1;
     }
 
     .content {

@@ -176,13 +176,15 @@ export class Word extends LitElement {
           : ''}
         ${this.dictionaryEntries.length > 0
           ? html`<crossword-tools-paper>
-              <button
-                class="close-dictionary"
-                title="Close definitions"
-                @click=${() => {
-                  this.dictionaryEntries = [];
-                }}
-              ></button>
+              ${this._readonly
+                ? ''
+                : html`<button
+                    class="close-dictionary"
+                    title="Close definitions"
+                    @click=${() => {
+                      this.dictionaryEntries = [];
+                    }}
+                  ></button>`}
               <ul>
                 ${this.dictionaryEntries.map(
                   (entry) =>
