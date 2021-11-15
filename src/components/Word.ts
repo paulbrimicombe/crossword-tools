@@ -8,25 +8,11 @@ import './Paper.js';
 export class Word extends LitElement {
   private _value: string = '';
 
-  private _readonly = false;
-
   @state()
   private lookupError: string | null = null;
 
   @property({ type: Array })
   dictionaryEntries: DictionaryEntry[] = [];
-
-  set readonly(value: boolean) {
-    this._readonly = value;
-    if (value) {
-      this.fetchData();
-    }
-  }
-
-  @property({ type: Boolean })
-  get readonly() {
-    return this._readonly;
-  }
 
   @property({ type: String })
   get value() {
@@ -147,27 +133,22 @@ export class Word extends LitElement {
   `;
 
   render() {
-    if (this._readonly) {
-      this.fetchData();
-    }
     return html`
       <div class="word">
         <div class="summary">
-          ${this._readonly
-            ? ''
-            : html`<b>${this.value}</b>
-                <sup>
-                  <button
-                    class="toggle-definition"
-                    @click=${this.toggleDefinition}
-                    title="Show/hide definition"
-                  >
-                    ${this.dictionaryEntries.length > 0 || this.lookupError
-                      ? 'hide'
-                      : 'show'}
-                    definition
-                  </button>
-                </sup>`}
+          <b>${this.value}</b>
+          <sup>
+            <button
+              class="toggle-definition"
+              @click=${this.toggleDefinition}
+              title="Show/hide definition"
+            >
+              ${this.dictionaryEntries.length > 0 || this.lookupError
+                ? 'hide'
+                : 'show'}
+              definition
+            </button>
+          </sup>
         </div>
         ${this.lookupError
           ? html`<crossword-tools-paper
@@ -176,15 +157,13 @@ export class Word extends LitElement {
           : ''}
         ${this.dictionaryEntries.length > 0
           ? html`<crossword-tools-paper>
-              ${this._readonly
-                ? ''
-                : html`<button
-                    class="close-dictionary"
-                    title="Close definitions"
-                    @click=${() => {
-                      this.dictionaryEntries = [];
-                    }}
-                  ></button>`}
+              <button
+                class="close-dictionary"
+                title="Close definitions"
+                @click=${() => {
+                  this.dictionaryEntries = [];
+                }}
+              ></button>
               <ul>
                 ${this.dictionaryEntries.map(
                   (entry) =>

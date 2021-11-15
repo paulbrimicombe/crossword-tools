@@ -72,6 +72,10 @@ export class Synonyms extends LitElement {
       font-size: inherit;
     }
 
+    form {
+      margin-bottom: 1em;
+    }
+
     .definitions {
       margin: 0.5em 0 1em 0;
       padding: 0 1em;
@@ -104,7 +108,6 @@ export class Synonyms extends LitElement {
           ? html`<crossword-tools-word
               value=${this._value}
               .dictionaryEntries=${this.dictionaryEntries}
-              .readonly=${true}
             ></crossword-tools-word>`
           : ''}
         ${this.lookupError
