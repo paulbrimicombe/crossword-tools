@@ -59,30 +59,22 @@ export class CrosswordTools extends LitElement {
       cursor: pointer;
       flex: 1;
       border: 1px solid transparent;
-      border-bottom: 1px solid grey;
       background-color: lightgrey;
       height: 2em;
       max-width: 10em;
       box-sizing: content-box;
       font-size: inherit;
-      transition-property: background-color;
+      transition-property: background-color border-color;
       transition-duration: 0.5s;
       transition-timing-function: ease;
     }
 
     button:hover {
-      background-image: linear-gradient(
-        to bottom,
-        aliceblue 0%,
-        aliceblue 80%,
-        #ededed
-      );
+      border: 1px solid grey;
     }
 
     .active {
-      background-color: inherit;
-      border: 1px solid grey;
-      border-bottom: transparent;
+      background-color: lightyellow;
     }
 
     .nav {
@@ -147,14 +139,13 @@ export class CrosswordTools extends LitElement {
         </div>
       </main>
       <div class="footer">
-        List of English words from
         <a
           href="https://github.com/dwyl/english-words"
           target="_blank"
           rel="noopener noreferrer"
-          >here</a
+          >English words list source</a
         >
-        / Definitions from the
+        / Word definitions are retrieved from the
         <a
           href="https://dictionaryapi.dev/"
           target="_blank"

@@ -8,9 +8,9 @@ export class MissingLetters extends LitElement {
   @property({ type: Array })
   private results: string[] = [];
 
-  private changeInput = (event: Event) => {
+  private changeInput = async (event: Event) => {
     const input = event.target as HTMLInputElement;
-    this.results = solve(input.value);
+    this.results = await solve(input.value);
   };
 
   static styles = css`
